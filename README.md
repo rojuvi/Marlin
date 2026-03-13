@@ -68,6 +68,85 @@ Official documentation can be found at the [Marlin Home Page](//marlinfw.org/).
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
 ---
+## Custom printer configuration
+My custom printer is based on the AnetA8. I replaced the main board with an SKR Mini E3 v3.0.
+Current hardware:
+- Stock Anet A8 12V 20A PSU
+- SKR Mini E3 v3.0 board
+  - TMC2209 Drivers
+- Stock Anet A8 NEMA 17 steppers
+- Stock Anet A8 12V MK3 heated bed
+- 12V Nozzle Heater
+
+Configuration is based on the one in the config examples for Ender 3 using the SKR Mini E3 v3.0
+The changes I made over it:
+
+### Configuration.h
+
+```
+#define MOTHERBOARD BOARD_BTT_SKR_MINI_E3_V3_0
+
+#define TEMP_SENSOR_0 5
+#define TEMP_SENSOR_BED 5
+
+#define BED_MAXTEMP      125
+
+#if ENABLED(PID_PARAMS_PER_HOTEND)
+  #define DEFAULT_KP_LIST {  21.00,  20.00 }
+  #define DEFAULT_KI_LIST {   1.25,   1.25 }
+  #define DEFAULT_KD_LIST {  86.00,  86.00 }
+#else
+  #define DEFAULT_KP  21.00
+  #define DEFAULT_KI   1.25
+  #define DEFAULT_KD  86.00
+#endif
+
+#define PIDTEMPBED
+#define DEFAULT_BED_KP 295.00
+#define DEFAULT_BED_KI  35.65
+#define DEFAULT_BED_KD 610.21
+
+#define EXTRUDE_MAXLENGTH 200
+
+#define X_MIN_ENDSTOP_HIT_STATE LOW
+#define Y_MIN_ENDSTOP_HIT_STATE LOW
+#define Z_MIN_ENDSTOP_HIT_STATE LOW
+
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 100, 100, 400, 100 }
+#define DEFAULT_MAX_FEEDRATE          { 400, 400, 8, 50 }
+#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 100, 10000 }
+
+#define DEFAULT_ACCELERATION           400
+#define DEFAULT_RETRACT_ACCELERATION   1000
+#define DEFAULT_TRAVEL_ACCELERATION    1000
+
+#define INVERT_Y_DIR false
+#define INVERT_Z_DIR true
+
+#define X_BED_SIZE 220
+#define Y_BED_SIZE 220
+
+#define X_MIN_POS -33
+#define Y_MIN_POS -10
+#define Z_MAX_POS 240
+
+#define PREHEAT_1_TEMP_HOTEND 190
+#define PREHEAT_1_TEMP_BED     60
+
+#define PREHEAT_2_TEMP_BED     90
+```
+
+### Configuration_adv.h
+
+```
+#define USE_CONTROLLER_FAN
+#define CONTROLLER_FAN_PIN FAN2_PIN
+#define CONTROLLER_FAN_EDITABLE
+#define E0_AUTO_FAN_PIN FAN1_PIN
+
+#define Z_CURRENT       800
+#define CHOPPER_TIMING CHOPPER_DEFAULT_12V
+```
 
 ## Marlin 2.1 Bugfix Branch
 
